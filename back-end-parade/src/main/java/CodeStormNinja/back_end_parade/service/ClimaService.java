@@ -37,11 +37,6 @@ public class ClimaService {
         }
     }
 
-
-
-
-
-
     public DadosBrutos buscarDadosBrutosSimulados(ClimaInput input) {
         String endpoint = "/weather-forecast";
 
