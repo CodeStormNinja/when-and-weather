@@ -1,8 +1,13 @@
 class Config:
     
+    # BASIC CONFIG
     API_NAME = "when-and-weather-data-api"
-    OPEN_METEO_API_URL = "https://api.open-meteo.com/v1/forecast"
-    OPEN_METEO_TIMEOUT_SECS = 2
-    APPLICATION_STARTED_AT_UTC = None
     
-    pass
+    # HTTP CONFIG
+    DEFAULT_HTTP_TIMEOUT_SECS = 5
+    
+    # EXTERNAL SERVICES
+    OPEN_METEO_API_URL = "https://api.open-meteo.com/v1/forecast"
+    
+    # HEALTH-CHECK
+    APPLICATION_STARTED_AT_UTC = None
