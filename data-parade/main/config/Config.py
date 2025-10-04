@@ -12,3 +12,6 @@ class Config:
     
     # HEALTH-CHECK
     APPLICATION_STARTED_AT_UTC = None
+    
+    # SWAGGER
+    RESTX_MASK_SWAGGER = False

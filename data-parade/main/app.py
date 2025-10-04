@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_restx import Api
+from flask_cors import CORS
 
 from main.common.utils.DateTimeUtils import DateTimeUtils
 from main.config.Config import Config
@@ -26,4 +27,11 @@ def create_app():
     api.add_namespace(monitoring_ns)
     api.add_namespace(weather_forecast_ns)
 
+    # CORS
+    CORS(app)
+    
     return app
+
+if __name__ == "__main__":
+    app = create_app()
+    app.run(debug=True)
