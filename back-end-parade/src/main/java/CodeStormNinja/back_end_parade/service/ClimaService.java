@@ -19,6 +19,29 @@ public class ClimaService {
         this.apiDadosBaseUrl = apiDadosBaseUrl;
     }
 
+
+    public ClimaOutput analisarStatus(ClimaInput input) {
+        try {
+            DadosBrutos dadosBrutos = buscarDadosBrutosSimulados(input);
+
+            if (dadosBrutos == null) {
+                return new ClimaOutput("Error: Data not found or API call failed", 0.0, 0.0);
+            }
+
+            String statusClima = logicaNegocio(dadosBrutos);
+
+            return new ClimaOutput(statusClima, dadosBrutos.getTemperatura(), dadosBrutos.getChancePrecipitacao());
+        } catch (Exception e) {
+            System.err.println("An error occurred during climate analysis: " + e.getMessage());
+            return new ClimaOutput("Error: Data API communication failure", 0.0, 0.0);
+        }
+    }
+
+
+
+
+
+
     public DadosBrutos buscarDadosBrutosSimulados(ClimaInput input) {
         String endpoint = "/weather-forecast";
 
