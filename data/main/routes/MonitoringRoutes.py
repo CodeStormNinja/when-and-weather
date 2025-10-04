@@ -4,18 +4,22 @@ import time
 import requests
 
 from main.common.utils.DateTimeUtils import DateTimeUtils
+from main.infrastructure.http.HttpContext import HttpContext
 
 ns = Namespace("health", description="Application Health Check")
 
 @ns.route("")
 class HealthCheckResource(Resource):
     
+    def __init__(self, api):
+        self._http_context = HttpContext()
+        super().__init__(api)
+    
     def get(self):
         
         api_name = current_app.config.get("API_NAME")
         app_started_at_utc = current_app.config.get("APPLICATION_STARTED_AT_UTC")
         open_meteo_url = current_app.config.get("OPEN_METEO_API_URL")
-        open_meteo_timeout = current_app.config.get("OPEN_METEO_TIMEOUT_SECS")
 
         info = {
             "status": "ok",
@@ -28,16 +32,14 @@ class HealthCheckResource(Resource):
         deps = {}
         try:
             t0 = time.perf_counter()
-            r = requests.get(
-                open_meteo_url,
+            self._http_context.get(
+                url=open_meteo_url,
                 params={
                     "latitude": 0, "longitude": 0,
                     "hourly": "temperature_2m",
                     "forecast_days": 1, "timezone": "UTC"
-                },
-                timeout=float(open_meteo_timeout)
+                }
             )
-            r.raise_for_status()
             deps["open_meteo"] = {
                 "status": "ok",
                 "latency_ms": round((time.perf_counter() - t0) * 1000, 1)
