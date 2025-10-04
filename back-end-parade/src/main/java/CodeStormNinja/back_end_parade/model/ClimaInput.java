@@ -1,10 +1,12 @@
 package CodeStormNinja.back_end_parade.model;
-package com.CodeStormNinja.back_end_parade.model;
+
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.time.LocalDate;
+
+
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+
 
 public class ClimaInput {
 
@@ -37,4 +39,4 @@ public class ClimaInput {
         this.dataEHora = dataEHora;
     }
 }
-}
+
