@@ -19,6 +19,24 @@ public class ClimaService {
         this.apiDadosBaseUrl = apiDadosBaseUrl;
     }
 
+    public DadosBrutos buscarDadosBrutosSimulados(ClimaInput input) {
+        String endpoint = "/weather-forecast";
+
+        String url = apiDadosBaseUrl + endpoint;
+
+        System.out.println("Fetching data from URL: " + url + " using POST method.");
+
+        try {
+            DadosBrutos dados = restTemplate.postForObject(url, input, DadosBrutos.class);
+
+            return dados;
+
+        } catch (Exception e) {
+            System.err.println("Error calling Data API (" + url + "): " + e.getMessage());
+            return null;
+        }
+    }
+
     public String logicaNegocio(DadosBrutos dados) {
         String statusTemperatura;
         double temp = dados.getTemperatura();
