@@ -13,7 +13,7 @@ class HttpConfig:
         if HttpConfig.session is None:
             session = requests.Session()
             session.headers.update({
-                "User-Agent": "nasa-data-parade/1.0",
+                "User-Agent": current_app.config.get("API_NAME") + "/1.0",
                 "Accept": "application/json",
             })
             adapter = HTTPAdapter(max_retries=Retry(
