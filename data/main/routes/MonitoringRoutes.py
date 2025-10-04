@@ -19,7 +19,8 @@ class HealthCheckResource(Resource):
         
         api_name = current_app.config.get("API_NAME")
         app_started_at_utc = current_app.config.get("APPLICATION_STARTED_AT_UTC")
-        open_meteo_url = current_app.config.get("OPEN_METEO_API_URL")
+        geocode_api_url = current_app.config.get("GEOCODE_API_URL")
+        weather_forecast_api_url = current_app.config.get("OPEN_METEO_API_URL")
 
         info = {
             "status": "ok",
@@ -30,25 +31,18 @@ class HealthCheckResource(Resource):
         }
             
         deps = {}
-        try:
-            t0 = time.perf_counter()
-            self._http_context.get(
-                url=open_meteo_url,
-                params={
-                    "latitude": 0, "longitude": 0,
-                    "hourly": "temperature_2m",
-                    "forecast_days": 1, "timezone": "UTC"
-                }
-            )
-            deps["open_meteo"] = {
-                "status": "ok",
-                "latency_ms": round((time.perf_counter() - t0) * 1000, 1)
-            }
-        except Exception as e:
-            deps["open_meteo"] = {
-                "status": "fail", 
-                "error": type(e).__name__
-            }
+        
+        deps["open_meteo"] = self._test_external_service(weather_forecast_api_url + "/v1/forecast", "get", params={
+            "latitude": 0, "longitude": 0,
+            "hourly": "temperature_2m",
+            "forecast_days": 1, "timezone": "UTC"
+        })
+        
+        deps["geocode"] = self._test_external_service(geocode_api_url + "/search", "get", params={
+            "q": "United States", 
+            "format": "json", 
+            "limit": 1
+        })
 
         info["deps"] = deps
         
@@ -59,3 +53,33 @@ class HealthCheckResource(Resource):
 
         result_status_code = 200 if info["status"] == "ok" else 503
         return info, result_status_code
+    
+    def _test_external_service(self, url, method_name, params, headers={}):
+        method = getattr(self._http_context, method_name)
+        try:
+            t0 = time.perf_counter()
+            method(url=url, params=params, headers=headers)
+            return {
+                "status": "ok",
+                "latency_ms": round((time.perf_counter() - t0) * 1000, 1)
+            }
+        except Exception as e:
+            return {
+                "status": "fail", 
+                "error": type(e).__name__
+            }
+    
+    def _test_external_service(self, url, method_name, params, headers={}):
+        method = getattr(self._http_context, method_name)
+        try:
+            t0 = time.perf_counter()
+            method(url=url, params=params, headers=headers)
+            return {
+                "status": "ok",
+                "latency_ms": round((time.perf_counter() - t0) * 1000, 1)
+            }
+        except Exception as e:
+            return {
+                "status": "fail", 
+                "error": type(e).__name__
+            }
