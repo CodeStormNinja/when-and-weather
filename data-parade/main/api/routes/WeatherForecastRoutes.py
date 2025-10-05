@@ -11,7 +11,7 @@ for m in [WeatherForecastRequestSwaggerModel, WeatherForecastResponseSwaggerMode
     if m.name not in ns.models:
         ns.add_model(m.name, m)
 
-@ns.route("/")
+@ns.route("")
 class WeatherForecastResource(Resource):
     
     def __init__(self, api, *args, **kwargs):
