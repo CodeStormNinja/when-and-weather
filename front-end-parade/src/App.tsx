@@ -41,10 +41,10 @@ export function App() {
             </div>
             <div className="flex gap-3 md:gap-4 text-xs md:text-base">
               <a href="#" className="hover:underline">
-                Sobre
+                About us
               </a>
               <a href="#" className="hover:underline">
-                Contatos
+                Contacts
               </a>
             </div>
           </div>
@@ -72,7 +72,7 @@ export function App() {
               className="bg-gradient-to-r from-blue-500 to-blue-700 px-4 py-2 rounded-md font-bold text-xs md:text-sm shadow-md hover:from-blue-600 hover:to-blue-800 w-full md:w-auto transition-all"
               onClick={getAllTemp}
             >
-              Ver previsão
+              Get Forecast
             </button>
           </div>
 
@@ -94,19 +94,19 @@ export function App() {
           {/* Rodapé */}
           <div className="flex flex-col md:flex-row justify-between text-xs md:text-sm text-gray-300 mt-4 gap-2 md:gap-0 w-full">
             <div>
-              <span className="font-bold">Vai chover no meu desfile?</span>
+              <span className="font-bold">When & Weather</span>
               <br />
-              Previsões personalizadas para o seu evento
+              Providing you with personalized predictions and weather information for your needs.
             </div>
             <div>
               <span className="font-bold">Links</span>
               <br />
-              Sobre | Contato
+              About us | Contact
             </div>
             <div>
-              <span className="font-bold">Créditos</span>
+              <span className="font-bold">Credits</span>
               <br />
-              Design por CodeStormNinja
+              Developed by CodeStormNinja
             </div>
           </div>
         </div>
