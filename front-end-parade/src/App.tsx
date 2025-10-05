@@ -17,7 +17,11 @@ export function App() {
     setIsLoading(true);
     const response = await getTemp(localidade, dataHora);
     setIsLoading(false);
-    if (response.success) setTemp([response.data]);
+    if (response.success){
+      response.data["dataEHora"] = dataHora;
+      response.data["localidade"] = localidade;
+      setTemp([response.data]);
+    }
     else setTemp([]);
   }
 
@@ -83,7 +87,7 @@ export function App() {
                   Nenhuma previsão encontrada.
                 </div>
               ) : (
-                temp.map((card, idx) => <Card key={idx} props={card} city={localidade} time={dataHora} statusClima={card.evento} image="sunny"  />)
+                temp.map((card, idx) => <Card key={idx} props={card} />)
               )}
             </div>
           )}
