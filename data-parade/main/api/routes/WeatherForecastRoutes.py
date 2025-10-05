@@ -21,6 +21,7 @@ class WeatherForecastResource(Resource):
     @ns.expect(WeatherForecastRequestSwaggerModel, validate=True)
     @ns.marshal_with(WeatherForecastResponseSwaggerModel, code=200, skip_none=True)
     @ns.response(400, "Invalid request")
+    @ns.response(500, "Internal server error")
     def post(self):
         
         try:
@@ -28,6 +29,9 @@ class WeatherForecastResource(Resource):
         except ValidationError as e:
             abort(400, message="Invalid request body", errors=e.errors())
         
-        result = self._weather_forecast_service.get_forecast(dto.location, dto.datetime)
-
-        return result, 200
+        try:
+            result = self._weather_forecast_service.get_forecast(dto.location, dto.datetime)
+            return result, 200
+        except Exception as e:
+            ns.logger.error(f"Error in WeatherForecastResource POST: {str(e)}")
+            abort(500, message="An error occurred while processing the request")

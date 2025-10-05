@@ -20,9 +20,18 @@ export function App() {
     if (response.success){
       response.data["dataEHora"] = dataHora;
       response.data["localidade"] = localidade;
+      response.data["error"] = false;
       setTemp([response.data]);
     }
-    else setTemp([]);
+    else setTemp([{
+      evento: "",
+      mensagem: "Oops! Something went wrong, please try again. :(",
+      dataEHora: "",
+      localidade: "",
+      temperatura: "",
+      chanceChuva: "",
+      error: true
+    }]);
   }
 
   return (
@@ -82,13 +91,7 @@ export function App() {
           ) : (
             <div className="flex md:flex-row justify-center min-h-[120px] md:min-h-[180px] w-full">
               {/* Cards de previsão */}
-              {temp.length === 0 ? (
-                <div className="w-full text-center text-gray-200 py-8 text-base md:text-lg font-semibold">
-                  Nenhuma previsão encontrada.
-                </div>
-              ) : (
-                temp.map((card, idx) => <Card key={idx} props={card} />)
-              )}
+              {temp.map((card, idx) => <Card key={idx} props={card} />)}
             </div>
           )}
           {/* Rodapé */}

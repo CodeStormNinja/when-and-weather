@@ -2,7 +2,8 @@ package CodeStormNinja.back_end_parade.controller;
 
 import java.time.LocalDateTime;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,8 @@ public class ClimaController {
 
   private ClimaService climaService;
 
+  private final Logger logger = LoggerFactory.getLogger(ClimaController.class);
+
   public ClimaController(ClimaService climaService) {
     this.climaService = climaService;
   }
@@ -35,7 +38,7 @@ public class ClimaController {
       ClimaOutput output = climaService.analisarStatus(input);
       return ResponseEntity.ok(output);
     } catch (Exception e) {
-      System.err.println("error when analyzing climate" + e.getMessage());
+      logger.error("error when analyzing climate", e);
       return ResponseEntity.internalServerError().body(null);
     }
   }

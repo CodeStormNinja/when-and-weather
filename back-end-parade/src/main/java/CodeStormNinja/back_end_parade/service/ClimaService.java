@@ -3,6 +3,9 @@ package CodeStormNinja.back_end_parade.service;
 import CodeStormNinja.back_end_parade.model.ClimaInput;
 import CodeStormNinja.back_end_parade.model.ClimaOutput;
 import CodeStormNinja.back_end_parade.model.DadosBrutos;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -13,6 +16,7 @@ public class ClimaService {
 
     private final RestTemplate restTemplate;
     private final String apiDadosBaseUrl;
+    private final Logger logger = LoggerFactory.getLogger(ClimaService.class);
 
     public ClimaService(@Value("${api.dados.base-url}") String apiDadosBaseUrl) {
         this.restTemplate = new RestTemplate();
@@ -21,19 +25,15 @@ public class ClimaService {
 
 
     public ClimaOutput analisarStatus(ClimaInput input) {
+
         try {
             DadosBrutos dadosBrutos = buscarDadosBrutosSimulados(input);
-
-            if (dadosBrutos == null) {
-                return new ClimaOutput("Error: Data not found or API call failed", 0.0, 0.0);
-            }
-
             String statusClima = logicaNegocio(dadosBrutos);
-
             return new ClimaOutput(statusClima, dadosBrutos.getTemperatura(), dadosBrutos.getChancePrecipitacao());
+        
         } catch (Exception e) {
-            System.err.println("An error occurred during climate analysis: " + e.getMessage());
-            return new ClimaOutput("Error: Data API communication failure", 0.0, 0.0);
+            logger.error("An error occurred during climate analysis: ", e);
+            throw e;
         }
     }
 
@@ -42,7 +42,7 @@ public class ClimaService {
 
         String url = apiDadosBaseUrl + endpoint;
 
-        System.out.println("Fetching data from URL: " + url + " using POST method.");
+        logger.info("Fetching data from URL: " + url + " using POST method.");
 
         try {
             DadosBrutos dados = restTemplate.postForObject(url, input, DadosBrutos.class);
@@ -50,8 +50,8 @@ public class ClimaService {
             return dados;
 
         } catch (Exception e) {
-            System.err.println("Error calling Data API (" + url + "): " + e.getMessage());
-            return null;
+            logger.error("Error calling Data API (" + url + "): " + e.getMessage());
+            throw e;
         }
     }
 
