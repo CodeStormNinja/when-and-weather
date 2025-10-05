@@ -20,10 +20,21 @@ export default function Card({
   statusClima,
   bgColor = "bg-amber-300",
 }: CardProps) {
+
+  const getImageByStatus = () => {
+    if (!statusClima) return image;
+    if (statusClima.includes("Warm") || statusClima.includes("Pleasant")) return "./src/assets/sunny.svg";
+    if (statusClima.includes("Cold")) return "./src/assets/cloudy.svg";
+    if (statusClima.includes("ventoso")) return ".src/assets/cloudy.svg";
+    if (!statusClima.includes("no chance of rain")) return ".src/assets/rain.svg";
+    if (statusClima.includes("desconfortável")) return ".src/assets/cloudy.svg";
+    return image;
+  };
+
   return (
     <section className="*:box-border w-[240px] h-[320px] flex flex-col items-center justify-center text-center mt-4 p-3">
       <picture className={`w-full h-[40%] flex flex-col items-center gap-2 p-2 rounded-t-lg ${bgColor}`}>
-        <img src={image}  className="w-12 h-12" />
+        <img src={getImageByStatus()}  className="w-12 h-12" />
         {/* <p className="text-xl font-bold text-sky-950">{title}</p> */}
       </picture>
       <article className="w-full h-[60%] flex flex-col gap-2 rounded-b-lg font-bold pt-2 text-sky-950 bg-white">
