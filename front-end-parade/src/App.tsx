@@ -80,7 +80,7 @@ export function App() {
           {isLoading ? (
             <Loading />
           ) : (
-            <div className="flex flex-col md:flex-row justify-between gap-4 md:gap-6 mb-6 md:mb-8 min-h-[120px] md:min-h-[180px] w-full">
+            <div className="flex md:flex-row justify-center min-h-[120px] md:min-h-[180px] w-full">
               {/* Cards de previsão */}
               {temp.length === 0 ? (
                 <div className="w-full text-center text-gray-200 py-8 text-base md:text-lg font-semibold">

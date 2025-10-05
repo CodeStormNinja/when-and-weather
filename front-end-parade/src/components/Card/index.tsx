@@ -80,8 +80,8 @@ export default function Card({
   }
 
   return (
-    <section className="*:box-border w-[240px] h-[320px] flex flex-col items-center justify-center text-center mt-4 p-3">
-      <picture className={`w-full h-[40%] flex flex-col items-center gap-2 p-2 rounded-t-lg ${getBackgroundColorByStatus()}`}>
+    <section className="*:box-border w-full h-[320px] flex flex-col items-center justify-center text-center p-3">
+      <picture className={`w-full h-[40%] flex items-center justify-center rounded-t-lg ${getBackgroundColorByStatus()}`}>
         <img src={getImageByStatus()}  className="w-12 h-12" />
         {/* <p className="text-xl font-bold text-sky-950">{title}</p> */}
       </picture>
