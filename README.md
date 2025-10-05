@@ -6,7 +6,7 @@ The project is divided in 3 parts:
 
 - The **front-end layer**, with an app developed with React to display the UI for users.
 - The **back-end domain layer**, with an API that deals with the business logic and decision-making to give a cleaner and more purposeful description for the users, developed with Java.
-- The **data layer**, with an API that translates the location query into specific coordinates (globally) and checks the weather for that location and date/time inputs, developed with Python.
+- The **data layer**, with an API that translates the location query into specific coordinates (globally) and checks the weather for that location and date/time inputs, developed with Python. Data form this layer is gathered using NASA's POWER API (Prediction Of Worldwide Energy Resources) for historical data and Open-Meteo's API for weather forecasting
    
 ---
 
@@ -137,6 +137,10 @@ This project was built under the MIT license.
 ---
 
 ## Data Sources & Attribution
+
+This project uses historical weather data from [**NASA POWER API**](https://power.larc.nasa.gov)
+
+- **NASA's Privacy Policy:** [NASA](https://www.nasa.gov/privacy/#privacy-policy) 
 
 This project uses weather forecast data from [**Open-Meteo**](https://open-meteo.com/).
 
